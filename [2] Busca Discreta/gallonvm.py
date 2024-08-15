@@ -1,5 +1,11 @@
+"""
+Autores: Gabriel Tomazini Marani 2266083
+         Paulo Victor Nogueira Rodrigues 2265125
+"""
+
 from enum import IntEnum
 from collections import deque
+import random
 
 
 class Gallon:
@@ -33,7 +39,6 @@ class Gallon:
         other.limit()
 
 
-# Virtual Machine Commands
 class VMC(IntEnum):
     G3_EMPTY = 0
     G3_FILL = 1
@@ -45,8 +50,8 @@ class VMC(IntEnum):
 
 class VirtualMachine:
     def __init__(self):
-        self.g3 = Gallon(3, 0)
-        self.g5 = Gallon(5, 0)
+        self.g3 = Gallon(3, random.randint(0, 3))
+        self.g5 = Gallon(5, random.randint(0, 5))
 
     def run(self, code: VMC):
         match code:
@@ -71,15 +76,34 @@ class VirtualMachine:
     def set_state(self, state):
         self.g3.volume, self.g5.volume = state
 
+    def printMemory(self):
+        print("g3: {} | g5: {} \n".format(self.g3.volume, self.g5.volume))
+
     def success(self):
         return self.g5.volume == 4
 
 
 def bfs():
-    initial_state = (0, 0)
-    print(initial_state)
-    queue = deque([(initial_state, [])])
-    visited = set([initial_state])
+    vm = VirtualMachine()  # Instância da máquina virtual
+    initial_state = (vm.g3.volume, vm.g5.volume)
+
+    print("Estado inicial foi: \n")
+
+    vm.printMemory()
+
+    if (
+        vm.g5.volume == 4
+    ):  # Se o estado inicial já for a solução, não é necessário busca
+        print("Galão g5 já começou com 4l, não é necessário busca :D\n")
+        exit()
+
+    queue = deque(
+        [(initial_state, [])]
+    )  # Fila vai consistir de nodos, cada nodo vai ter um estado e o caminho
+    visited = set(
+        [initial_state]
+    )  # Marco o estado inicial como visitado, pois iremos começar dele
+    solutions = []  # Lista onde as soluções serão armazenadas
 
     commands = [
         VMC.G3_EMPTY,
@@ -89,45 +113,45 @@ def bfs():
         VMC.G3_TRANSFER_G5,
         VMC.G5_TRANSFER_G3,
     ]
-    """
-    for n in range(0, 0):
-        print(n)
-        if (n, 4):
-            print("Já veio certo!\n")
-    """
-    while queue:
-        current_state, path = queue.popleft()
-        # print(path)
-        # print("\n")
+
+    # Aqui começa o BFS, vizinhos são tuplas compostas por estados e o caminho de comandos que levou até ali
+    while queue:  # Algoritmo executa enquanto houverem nodos na fila
+        (
+            current_state,
+            path,
+        ) = (
+            queue.popleft()
+        )  # Tira o primeiro item da fila, armazena o estado atual e o caminho
         for command in commands:
-            vm = VirtualMachine()
             vm.set_state(current_state)
             vm.run(command)
             new_state = vm.get_state()
             if new_state not in visited:
                 if vm.success():
-                    return path + [command]
-                queue.append((new_state, path + [command]))
+                    solutions.append(path + [command])
+                else:
+                    queue.append((new_state, path + [command]))
                 visited.add(new_state)
-                print("Fila: ")
-                print(queue)
-                print("\n")
-                print("Visitado: ")
-                print(visited)
-                print("\n")
-        print("ACABOU PRIMEIRO NÍVEL\n")
 
-    return None
+    return solutions
 
 
 def main():
-    result = bfs()
-    if result:
-        path = result
-        for command in path:
-            print(command.name)
-    else:
-        print("No solution found.")
+    menor = 999
+    solutions = bfs()
+
+    # Caso haja mais de uma solução, verifica qual é a solução com menor número de passos
+    for solution in solutions:
+        if len(solution) < menor:
+            menor = len(solution)
+
+    # Só mostra soluções com o menor número de passos, mesmo que haja uma solução com maior número de passos
+    for solution in solutions:
+        if len(solution) == menor:
+            print("Solução encontrada:")
+            for command in solution:
+                print(command.name)
+            print(" ")
 
 
 if __name__ == "__main__":
