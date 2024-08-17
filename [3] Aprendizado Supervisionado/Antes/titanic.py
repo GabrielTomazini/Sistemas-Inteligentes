@@ -18,7 +18,7 @@ import os
 
 # Read dataset into data frame
 train_df = pd.read_csv(
-    "C:\\Users\\byel3\\OneDrive\\Área de Trabalho\\SISTEMAS INTELIGENTES\\[3] Aprendizado Supervisionado\\gatos.csv"
+    "C:\\Users\\byel3\\OneDrive\\Área de Trabalho\\SISTEMAS INTELIGENTES\\[3] Aprendizado Supervisionado\\Antes\\titanic-train.csv"
 )
 # Change textual labels 'male' to 0 and 'female' to 1
 train_df["Sex"] = train_df["Sex"].apply(lambda sex: 0 if sex == "male" else 1)
@@ -39,6 +39,7 @@ features = train_df[list(columns)].values
 
 # Replace 'nans' by mean to avoid issues
 imp = SimpleImputer(missing_values=np.nan, strategy="mean")
+print(imp)
 X = imp.fit_transform(features)
 
 # Learn the decision tree
