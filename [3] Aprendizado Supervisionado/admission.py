@@ -1,5 +1,5 @@
 """
-treinamento de uma árvore decisão sobre o dataset Admission_Predict
+Treinamento de uma árvore decisão sobre o dataset Admission_Predict
 """
 
 import pandas as pd
