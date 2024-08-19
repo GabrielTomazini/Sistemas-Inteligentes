@@ -1,3 +1,8 @@
+"""
+Autores: Gabriel Tomazini Marani 2266083
+         Paulo Victor Nogueira Rodrigues 2265125
+"""
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -16,13 +21,13 @@ def main():
     data["Escola"] = data["Escola"].apply(
         lambda Escola: 0 if Escola == "Particular" else 1
     )
-
+    """
     data["Coeficiente"] = data["Coeficiente"].apply(
         lambda Coeficiente: Coeficiente * 1000
-    )
+    )"""
 
-    # importantData = data[["Sexo", "Coeficiente", "Escola", "Enem"]]
-    x = data[["Coeficiente", "Escola"]]
+    importantData = data[["Sexo", "Coeficiente", "Escola", "Enem"]]
+    x = importantData[["Enem", "Escola"]]
 
     # OBS: minsamples >= D + 1
     db = sklearn.cluster.DBSCAN(eps=10, min_samples=5).fit(x)
@@ -35,11 +40,11 @@ def main():
 
     for label in np.unique(db.labels_):
         print("LABEL ", label)
-        print(data.iloc[db.labels_ == label])
+        print(importantData.iloc[db.labels_ == label])
 
     x.plot.scatter(
         x="Escola",
-        y="Coeficiente",
+        y="Enem",
         c=db.labels_,
         cmap="Set1",
         edgecolor=(0, 0, 0),
