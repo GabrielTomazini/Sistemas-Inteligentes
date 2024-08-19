@@ -52,7 +52,7 @@ for i in range(10):
         tree_teste,
         feature_names=columns,
         filled=True,
-        max_depth=2,
+        max_depth=5,
         impurity=False,
         proportion=True,
     )
@@ -61,7 +61,7 @@ for i in range(10):
 
 GREScore = 340
 TOEFLScore = 120
-UniversityRating = 1
+UniversityRating = 5
 SOP = 5
 LOR = 5
 CGPA = 10

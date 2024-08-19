@@ -38,8 +38,8 @@ def main():
         print(data.iloc[db.labels_ == label])
 
     x.plot.scatter(
-        x="Coeficiente",
-        y="Escola",
+        x="Escola",
+        y="Coeficiente",
         c=db.labels_,
         cmap="Set1",
         edgecolor=(0, 0, 0),
