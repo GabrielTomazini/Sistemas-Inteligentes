@@ -1,7 +1,6 @@
 """
 Autores: Gabriel Tomazini Marani 2266083
          Paulo Victor Nogueira Rodrigues 2265125
-Treinamento de uma árvore decisão sobre o dataset Admission_Predict
 """
 
 import pandas as pd
@@ -29,12 +28,12 @@ labels = "chanceOfAdmit"
 y = train_df["chanceOfAdmit"].values
 
 columns = [
-    "GREScore",
-    "TOEFLScore",
+    "GREScore",  # Graduate Record Examination
+    "TOEFLScore",  # Test of English as a Foreign Language
     "UniversityRating",
     "SOP",
     "LOR",
-    "CGPA",
+    "CGPA",  # Grade Point Average
     "Research",
 ]
 features = train_df[list(columns)].values

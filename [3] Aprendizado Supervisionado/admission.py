@@ -1,8 +1,6 @@
 """
 Autores: Gabriel Tomazini Marani 2266083
          Paulo Victor Nogueira Rodrigues 2265125
-         
-Treinamento utilizando dataset Admission_Predict
 """
 
 import pandas as pd
